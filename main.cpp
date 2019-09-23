@@ -25,24 +25,12 @@ int main() {
     int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
    
     while(true) {
-
-        if(abs(con.Axis3.position())>threshold)
-        Y1 = con.Axis3.position();
-        else
-        Y1 = 0;
-        if(abs(con.Axis4.position())>threshold)
-        X1 = con.Axis4.position();
-        else
-        X1 = 0;
-        if(abs(con.Axis1.position())>threshold)
-        X2 = con.Axis1.position();
-        else
-        X2 = 0;
-
+        Y1 = (abs(con.Axis3.position())>threshold)?con.Axis3.position():0;
+        X1 = (abs(con.Axis4.position())>threshold)?con.Axis4.position():0;
+        X2 = (abs(con.Axis1.position())>threshold)?con.Axis1.position():0;
         frontRight.spin(fwd,Y1-X2-X1, velocityUnits::pct);
         backRight.spin(fwd, Y1-X2+X1, velocityUnits::pct);
         frontLeft.spin(fwd, Y1+X2+X1, velocityUnits::pct);
         backLeft.spin(fwd, Y1+X2-X1, velocityUnits::pct);
-
     }
 }
