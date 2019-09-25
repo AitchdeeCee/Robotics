@@ -19,8 +19,20 @@ vex::motor      frontLeft(vex::PORT20, vex::gearSetting::ratio18_1, false);
 vex::controller con(vex::controllerType::primary);
 
 // define your global instances of motors and other devices here
-
-
+void run(double a){
+    backRight.startRotateFor(a, rev);
+    backLeft.startRotateFor(a, rev);
+    frontRight.startRotateFor(a, rev);
+    frontLeft.rotateFor(a, rev);
+    vex::task::sleep(1000);
+}
+void turn(double a){
+    backRight.startRotateFor(a*1.3, rev);
+    backLeft.startRotateFor(a*-1.3, rev);
+    frontRight.startRotateFor(a*1.3, rev);
+    frontLeft.rotateFor(a*-1.3, rev);
+    vex::sleep(1000);
+}
 int main() {
     int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
    
