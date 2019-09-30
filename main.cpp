@@ -22,6 +22,7 @@ vex::motor      rightArm(vex::PORT6, vex::gearSetting::ratio18_1, false);
 vex::controller con(vex::controllerType::primary);
 
 // define your global instances of motors and other devices here
+<<<<<<< HEAD
 
 void run(double a) {
     frontRight.startRotateFor(a, rev);
@@ -43,6 +44,25 @@ void turn(double a){
 // If you want to turn leftward to the opposite side, type in -2
 void controllRun(){
   int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
+=======
+void run(double a){
+    backRight.startRotateFor(a, rev);
+    backLeft.startRotateFor(a, rev);
+    frontRight.startRotateFor(a, rev);
+    frontLeft.rotateFor(a, rev);
+    vex::task::sleep(1000);
+}
+void turn(double a){
+    backRight.startRotateFor(a*1.3, rev);
+    backLeft.startRotateFor(a*-1.3, rev);
+    frontRight.startRotateFor(a*1.3, rev);
+    frontLeft.rotateFor(a*-1.3, rev);
+    vex::sleep(1000);
+}
+int main() {
+    int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
+   
+>>>>>>> 69e60ab2e1442e562dd4dbb388608f82bdd9c5d2
     while(true) {
         Y1 = (abs(con.Axis3.position())>threshold)?con.Axis3.position():0;
         X1 = (abs(con.Axis4.position())>threshold)?con.Axis4.position():0;
