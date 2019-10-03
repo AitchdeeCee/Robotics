@@ -22,55 +22,38 @@ vex::motor      rightArm(vex::PORT6, vex::gearSetting::ratio18_1, false);
 vex::controller con(vex::controllerType::primary);
 
 // define your global instances of motors and other devices here
-<<<<<<< HEAD
 
 void run(double a) {
-    frontRight.startRotateFor(a, rev);
-    frontLeft.startRotateFor(a,rev);
-    backLeft.startRotateFor(a,rev);
-    backRight.rotateFor(a,rev);
+    frontLeft.startRotateFor(fwd, a, rev, 50, velocityUnits::pct);
+    frontRight.startRotateFor(fwd, a, rev, 50, velocityUnits::pct);
+    frontLeft.startRotateFor(fwd, a, rev, 50, velocityUnits::pct);
+    backLeft.startRotateFor(fwd, a, rev, 50, velocityUnits::pct);
+    backRight.rotateFor(fwd, a, rev, 50, velocityUnits::pct);
     vex::task::sleep(1000);
 }
 void turn(double a){
-    frontLeft.startRotateFor(a*0.6, rev);
-    frontRight.startRotateFor(a*-0.6, rev);
-    backLeft.startRotateFor(a*0.6, rev);
-    backRight.rotateFor(-a*0.6, rev);
+    frontLeft.startRotateFor(fwd,a*1.5, rev,50,velocityUnits::pct);
+    frontRight.startRotateFor(fwd,a*-1.5, rev, 50, velocityUnits::pct);
+    backLeft.startRotateFor(fwd, a*1.5, rev, 50, velocityUnits::pct);
+    backRight.rotateFor(fwd, -a*1.5, rev, 50, velocityUnits::pct);
     vex::task::sleep(1000);
 }
-// If you want to turn right, type in 1
-// If you want to turn left, type in -1
-// if you want to turn rightward to the opposite side, type in 2
-// If you want to turn leftward to the opposite side, type in -2
+void horizon(double a){
+    frontLeft.startRotateFor(fwd,a, rev,50,velocityUnits::pct);
+    frontRight.startRotateFor(fwd,-a, rev, 50, velocityUnits::pct);
+    backLeft.startRotateFor(fwd,-a, rev, 50, velocityUnits::pct);
+    backRight.rotateFor(fwd,a, rev, 50, velocityUnits::pct); 
+}
 void controllRun(){
   int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
-=======
-void run(double a){
-    backRight.startRotateFor(a, rev);
-    backLeft.startRotateFor(a, rev);
-    frontRight.startRotateFor(a, rev);
-    frontLeft.rotateFor(a, rev);
-    vex::task::sleep(1000);
-}
-void turn(double a){
-    backRight.startRotateFor(a*1.3, rev);
-    backLeft.startRotateFor(a*-1.3, rev);
-    frontRight.startRotateFor(a*1.3, rev);
-    frontLeft.rotateFor(a*-1.3, rev);
-    vex::sleep(1000);
-}
-int main() {
-    int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
-   
->>>>>>> 69e60ab2e1442e562dd4dbb388608f82bdd9c5d2
     while(true) {
         Y1 = (abs(con.Axis3.position())>threshold)?con.Axis3.position():0;
         X1 = (abs(con.Axis4.position())>threshold)?con.Axis4.position():0;
         X2 = (abs(con.Axis1.position())>threshold)?con.Axis1.position():0;
-        frontRight.spin(fwd, Y1-X2+X1, velocityUnits::pct);
-        backRight.spin(fwd, Y1-X2-X1, velocityUnits::pct);
-        frontLeft.spin(fwd, Y1+X2-X1, velocityUnits::pct);
-        backLeft.spin(fwd, Y1+X2+X1, velocityUnits::pct);
+        frontRight.spin(fwd, (Y1-X2-X1)/2, velocityUnits::pct);
+        backRight.spin(fwd, (Y1-X2+X1)/2, velocityUnits::pct);
+        frontLeft.spin(fwd, (Y1+X2+X1)/2, velocityUnits::pct);
+        backLeft.spin(fwd, (Y1+X2-X1)/2, velocityUnits::pct);
     }
 }
 void controllArms(){
@@ -79,7 +62,7 @@ void controllArms(){
         leftArm.spin(fwd, 50, pct);
         rightArm.spin(fwd, 50, pct);
       }else if(con.ButtonDown.pressing()){
-        leftArm.spin(directionType::rev, 50, pct);
+        leftArm.spin(directionType::fwd, 50, pct);
         rightArm.spin(directionType::rev, 50, pct);
       }else{
         leftArm.stop(hold);
@@ -89,10 +72,6 @@ void controllArms(){
 }
 
 int main() {
-    run(2);
-    turn(2);
-    run(2);
-    Brain.Screen.print("I'M GAY FOR HUYYYYYYYY");
     controllRun();
     controllArms();
 }
