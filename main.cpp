@@ -44,8 +44,8 @@ void horizon(double a){
     backLeft.startRotateFor(fwd,-a, rev, 50, velocityUnits::pct);
     backRight.rotateFor(fwd,a, rev, 50, velocityUnits::pct); 
 }
-void controllRun(){
-  int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
+int main() {
+    int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
     while(true) {
         Y1 = (abs(con.Axis3.position())>threshold)?con.Axis3.position():0;
         X1 = (abs(con.Axis4.position())>threshold)?con.Axis4.position():0;
@@ -54,24 +54,15 @@ void controllRun(){
         backRight.spin(fwd, (Y1-X2+X1)/2, velocityUnits::pct);
         frontLeft.spin(fwd, (Y1+X2+X1)/2, velocityUnits::pct);
         backLeft.spin(fwd, (Y1+X2-X1)/2, velocityUnits::pct);
+        if(con.ButtonUp.pressing()){
+          leftArm.spin(fwd, 25, pct);
+          rightArm.spin(fwd, 25, pct);
+        }else if(con.ButtonDown.pressing()){
+          leftArm.spin(directionType::fwd, 25, pct);
+          rightArm.spin(directionType::rev, 25, pct);
+        }else{
+          leftArm.stop(hold);
+          rightArm.stop(hold);
+        }
     }
-}
-void controllArms(){
-    while(true){
-      if(con.ButtonUp.pressing()){
-        leftArm.spin(fwd, 50, pct);
-        rightArm.spin(fwd, 50, pct);
-      }else if(con.ButtonDown.pressing()){
-        leftArm.spin(directionType::fwd, 50, pct);
-        rightArm.spin(directionType::rev, 50, pct);
-      }else{
-        leftArm.stop(hold);
-        rightArm.stop(hold);
-      }
-    }
-}
-
-int main() {
-    controllRun();
-    controllArms();
 }
