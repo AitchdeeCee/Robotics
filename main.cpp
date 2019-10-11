@@ -65,4 +65,5 @@ int main() {
           rightArm.stop(hold);
         }
     }
+    Brain.Screen.print("I'm gay");
 }
