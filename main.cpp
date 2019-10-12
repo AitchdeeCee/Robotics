@@ -50,15 +50,15 @@ int main() {
         Y1 = (abs(con.Axis3.position())>threshold)?con.Axis3.position():0;
         X1 = (abs(con.Axis4.position())>threshold)?con.Axis4.position():0;
         X2 = (abs(con.Axis1.position())>threshold)?con.Axis1.position():0;
-        frontRight.spin(fwd, (Y1-X2-X1)/2, velocityUnits::pct);
-        backRight.spin(fwd, (Y1-X2+X1)/2, velocityUnits::pct);
-        frontLeft.spin(fwd, (Y1+X2+X1)/2, velocityUnits::pct);
-        backLeft.spin(fwd, (Y1+X2-X1)/2, velocityUnits::pct);
-        if(con.ButtonUp.pressing()){
+        frontRight.spin(fwd, (Y1-X2-X1), velocityUnits::pct);
+        backRight.spin(fwd, (Y1-X2+X1), velocityUnits::pct);
+        frontLeft.spin(fwd, (Y1+X2+X1), velocityUnits::pct);
+        backLeft.spin(fwd, (Y1+X2-X1), velocityUnits::pct);
+        if(con.ButtonL1.pressing()){
           leftArm.spin(fwd, 25, pct);
           rightArm.spin(fwd, 25, pct);
-        }else if(con.ButtonDown.pressing()){
-          leftArm.spin(directionType::fwd, 25, pct);
+        }else if(con.ButtonL2.pressing()){
+          leftArm.spin(directionType::rev, 25, pct);
           rightArm.spin(directionType::rev, 25, pct);
         }else{
           leftArm.stop(hold);
@@ -66,4 +66,5 @@ int main() {
         }
     }
     Brain.Screen.print("I'm gay");
+    Brain.Screen.print("Huy's gay too");
 }
