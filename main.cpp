@@ -22,7 +22,7 @@ vex::motor      rightArm(vex::PORT6, vex::gearSetting::ratio18_1, false);
 vex::controller con(vex::controllerType::primary);
 
 // define your global instances of motors and other devices here
-
+int Timepress = 0;
 void run(double a) {
     frontLeft.startRotateFor(fwd, a, rev, 50, velocityUnits::pct);
     frontRight.startRotateFor(fwd, a, rev, 50, velocityUnits::pct);
@@ -44,6 +44,20 @@ void horizon(double a){
     backLeft.startRotateFor(fwd,-a, rev, 50, velocityUnits::pct);
     backRight.rotateFor(fwd,a, rev, 50, velocityUnits::pct); 
 }
+void controlArm(int a){
+  vex::controller::button up = (a==0)?(con.ButtonL1):(con.ButtonUp);
+  vex::controller::button down = (a==0)?(con.ButtonL2):(con.ButtonDown);
+  if(up.pressing()){
+    leftArm.spin(fwd, 25, pct);
+    rightArm.spin(fwd, 25, pct);
+  }else if(down.pressing()){
+    leftArm.spin(directionType::rev, 25, pct);
+    rightArm.spin(directionType::rev, 25, pct);
+  }else{
+    leftArm.stop(hold);
+    rightArm.stop(hold);
+  }
+}
 int main() {
     int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
     while(true) {
@@ -54,17 +68,13 @@ int main() {
         backRight.spin(fwd, (Y1-X2+X1), velocityUnits::pct);
         frontLeft.spin(fwd, (Y1+X2+X1), velocityUnits::pct);
         backLeft.spin(fwd, (Y1+X2-X1), velocityUnits::pct);
-        if(con.ButtonL1.pressing()){
-          leftArm.spin(fwd, 25, pct);
-          rightArm.spin(fwd, 25, pct);
-        }else if(con.ButtonL2.pressing()){
-          leftArm.spin(directionType::rev, 25, pct);
-          rightArm.spin(directionType::rev, 25, pct);
+        if(con.ButtonX.pressed(void (function)(){
+          if(Timepress==0){Timepress++;
+          }else{Timepress=0;}
+        })){
+          controlArm(0);
         }else{
-          leftArm.stop(hold);
-          rightArm.stop(hold);
+          controlArm(1);
         }
     }
-    Brain.Screen.print("I'm gay");
-    Brain.Screen.print("Huy's gay too");
 }
