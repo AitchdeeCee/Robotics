@@ -23,6 +23,7 @@ vex::controller con(vex::controllerType::primary);
 
 // define your global instances of motors and other devices here
 int Timepress = 0;
+bool buttonPressedLastLoop = false;
 void run(double a) {
     frontLeft.startRotateFor(fwd, a, rev, 50, velocityUnits::pct);
     frontRight.startRotateFor(fwd, a, rev, 50, velocityUnits::pct);
@@ -48,11 +49,11 @@ void controlArm(int a){
   vex::controller::button up = (a==0)?(con.ButtonL1):(con.ButtonUp);
   vex::controller::button down = (a==0)?(con.ButtonL2):(con.ButtonDown);
   if(up.pressing()){
-    leftArm.spin(fwd, 25, pct);
-    rightArm.spin(fwd, 25, pct);
+    leftArm.spin(fwd, 10, pct);
+    rightArm.spin(fwd, 10, pct);
   }else if(down.pressing()){
-    leftArm.spin(directionType::rev, 25, pct);
-    rightArm.spin(directionType::rev, 25, pct);
+    leftArm.spin(directionType::rev, 10, pct);
+    rightArm.spin(directionType::rev, 10, pct);
   }else{
     leftArm.stop(hold);
     rightArm.stop(hold);
@@ -68,13 +69,14 @@ int main() {
         backRight.spin(fwd, (Y1-X2+X1), velocityUnits::pct);
         frontLeft.spin(fwd, (Y1+X2+X1), velocityUnits::pct);
         backLeft.spin(fwd, (Y1+X2-X1), velocityUnits::pct);
-        if(con.ButtonX.pressed(void (function)(){
-          if(Timepress==0){Timepress++;
-          }else{Timepress=0;}
-        })){
-          controlArm(0);
-        }else{
-          controlArm(1);
+        if (con.ButtonX.pressing() && !buttonPressedLastLoop) {
+          buttonPressedLastLoop = true;
+          Timepress++;
+        } else if (!con.ButtonX.pressing() && buttonPressedLastLoop) {
+          buttonPressedLastLoop = false;
+          Timepress=0;
         }
+        con.Screen.print(Timepress);
+        controlArm(Timepress%2);
     }
 }
