@@ -48,16 +48,14 @@ void horizon(double a){
 }
 int main() {
     int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
-    leftArm.setMaxTorque(45, pct);
-    rightArm.setMaxTorque(45,pct);
     while(true) {
         Y1 = (abs(con.Axis3.position())>threshold)?con.Axis3.position():0;
         X1 = (abs(con.Axis4.position())>threshold)?con.Axis4.position():0;
         X2 = (abs(con.Axis1.position())>threshold)?con.Axis1.position():0;
-        frontRight.spin(fwd, (Y1-X2-X1)/2, velocityUnits::pct);
-        backRight.spin(fwd, (Y1-X2+X1)/2, velocityUnits::pct);
-        frontLeft.spin(fwd, (Y1+X2+X1)/2, velocityUnits::pct);
-        backLeft.spin(fwd, (Y1+X2-X1)/2, velocityUnits::pct);
+        frontRight.spin(fwd, (Y1-X2+X1)*0.4, velocityUnits::pct);
+        backRight.spin(fwd, (Y1-X2-X1)*0.4, velocityUnits::pct);
+        frontLeft.spin(fwd, (Y1+X2-X1)*0.4, velocityUnits::pct);
+        backLeft.spin(fwd, (Y1+X2+X1)*0.4, velocityUnits::pct);
         if(con.ButtonL1.pressing()){
           leftArm.spin(directionType::rev, 25, pct);
           rightArm.spin(directionType::rev, 25, pct);
