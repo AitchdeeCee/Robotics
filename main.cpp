@@ -57,21 +57,21 @@ int main() {
         frontLeft.spin(fwd, (Y1+X2-X1)*0.4, velocityUnits::pct);
         backLeft.spin(fwd, (Y1+X2+X1)*0.4, velocityUnits::pct);
         if(con.ButtonL1.pressing()){
-          leftArm.spin(directionType::rev, 25, pct);
-          rightArm.spin(directionType::rev, 25, pct);
+          leftArm.spin(directionType::rev, 50, pct);
+          rightArm.spin(directionType::rev, 50, pct);
         }else if(con.ButtonL2.pressing()){
-          leftArm.spin(fwd, 25, pct);
-          rightArm.spin(fwd, 25, pct);
+          leftArm.spin(fwd, 50, pct);
+          rightArm.spin(fwd, 50, pct);
         }else{
           leftArm.stop(hold);
           rightArm.stop(hold);  
         }
         if(con.ButtonR1.pressing()){
-          leftIn.spin(directionType::rev, 50, pct);
-          rightIn.spin(directionType::rev, 50, pct);
+          leftIn.spin(directionType::rev, 75, pct);
+          rightIn.spin(directionType::rev, 75, pct);
         }else if(con.ButtonR2.pressing()){
-          leftIn.spin(directionType::fwd, 50, pct);
-          rightIn.spin(directionType::fwd, 50, pct);
+          leftIn.spin(directionType::fwd, 75, pct);
+          rightIn.spin(directionType::fwd, 75, pct);
         }else{
           leftIn.stop(hold);
           rightIn.stop(hold);
